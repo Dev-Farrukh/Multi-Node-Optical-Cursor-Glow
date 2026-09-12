@@ -178,7 +178,7 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
   return (
     <div
       ref={containerRef}
-      className="glow-effect-container"
+      className="pointer-events-none absolute inset-0 z-0 select-none opacity-0 mix-blend-screen transition-opacity duration-300 will-change-transform"
       aria-hidden="true"
     >
       {/* Trailing Optical Glow Nodes */}
@@ -186,7 +186,7 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
         <div
           key={idx}
           ref={(el) => (nodeRefs.current[idx] = el)}
-          className="glow-node"
+          className="pointer-events-none absolute left-0 top-0 rounded-full will-change-transform"
           style={{
             width: `${cfg.size}px`,
             height: `${cfg.size}px`,
@@ -200,10 +200,8 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
       {/* Head Inner Radiant Warm Core */}
       <div
         ref={headCoreRef}
-        className="glow-core"
+        className="pointer-events-none absolute left-0 top-0 h-[200px] w-[200px] rounded-full will-change-transform"
         style={{
-          width: '200px',
-          height: '200px',
           background: 'radial-gradient(circle, rgba(255,245,180,0.85) 0%, rgba(255,190,60,0.55) 40%, rgba(216,140,30,0.2) 70%, transparent 85%)',
           filter: 'blur(18px)',
         }}
@@ -212,7 +210,10 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
       {/* Head Specular Sparkle */}
       <div
         ref={headSparkleRef}
-        className="glow-sparkle"
+        className="pointer-events-none absolute left-0 top-0 h-8 w-8 rounded-full bg-amber-100/95 blur-[4px] will-change-transform"
+        style={{
+          boxShadow: '0 0 24px rgba(255,220,120,0.85), 0 0 45px rgba(216,140,30,0.55)',
+        }}
       />
     </div>
   )
