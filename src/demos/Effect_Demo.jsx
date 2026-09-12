@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Glowing_Effect, { GLOW_PRESETS } from '../components/ui/Glowing_Effect'
 
 const Effect_Demo = () => {
