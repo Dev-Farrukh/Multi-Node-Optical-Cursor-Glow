@@ -7,9 +7,11 @@ const Effect_Demo = () => {
   const presetMeta = GLOW_PRESETS[activePreset] || GLOW_PRESETS.cyan
 
   return (
-    <div
-      id="hero"
-      className="relative w-screen h-screen flex flex-col items-center justify-center bg-[#05070d] text-slate-100 overflow-hidden select-text"
+    <Glowing_Effect
+      preset={activePreset}
+      size={260}
+      intensity={1}
+      className="w-screen h-screen flex flex-col items-center justify-center bg-[#05070d] text-slate-100 select-text"
     >
       <div
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
@@ -30,8 +32,6 @@ const Effect_Demo = () => {
           WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 85%)',
         }}
       />
-
-      <Glowing_Effect heroId="hero" preset={activePreset} />
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-2xl px-6 pointer-events-auto">
         <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl mb-6 shadow-2xl">
@@ -62,7 +62,7 @@ const Effect_Demo = () => {
           Move your cursor around the screen to experience the real-time optical wake, bloom dispersion, and specular lighting.
         </p>
       </div>
-    </div>
+    </Glowing_Effect>
   )
 }
 
