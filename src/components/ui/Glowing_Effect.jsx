@@ -2,33 +2,89 @@ import { useEffect, useRef } from 'react'
 
 const TRAIL_COUNT = 9
 
-// Rich, high-saturation optical glow nodes for an intense, vibrant light wake
-const TRAIL_CONFIG = [
-  // Head: Primary golden spotlight & bloom
-  { size: 480, opacity: 0.9, blur: 55, bg: 'radial-gradient(circle, rgba(255,240,160,0.9) 0%, rgba(255,190,50,0.65) 35%, rgba(216,140,30,0.35) 55%, transparent 75%)' },
-  // Node 1: Intense trailing core
-  { size: 400, opacity: 0.85, blur: 48, bg: 'radial-gradient(circle, rgba(255,225,120,0.85) 0%, rgba(255,175,40,0.6) 35%, rgba(216,130,25,0.3) 55%, transparent 75%)' },
-  // Node 2: Rich warm amber
-  { size: 340, opacity: 0.8, blur: 42, bg: 'radial-gradient(circle, rgba(255,210,100,0.8) 0%, rgba(250,160,35,0.55) 35%, rgba(216,120,20,0.25) 55%, transparent 75%)' },
-  // Node 3: Golden wake
-  { size: 290, opacity: 0.72, blur: 36, bg: 'radial-gradient(circle, rgba(255,195,85,0.75) 0%, rgba(245,145,30,0.5) 35%, rgba(210,110,15,0.2) 55%, transparent 75%)' },
-  // Node 4: Saturated amber tail
-  { size: 240, opacity: 0.65, blur: 30, bg: 'radial-gradient(circle, rgba(250,180,70,0.7) 0%, rgba(240,130,25,0.45) 35%, rgba(200,100,15,0.18) 55%, transparent 75%)' },
-  // Node 5: Warm amber wake
-  { size: 190, opacity: 0.55, blur: 24, bg: 'radial-gradient(circle, rgba(245,165,60,0.6) 0%, rgba(230,115,20,0.35) 35%, rgba(190,90,10,0.12) 55%, transparent 75%)' },
-  // Node 6: Deep golden tail
-  { size: 150, opacity: 0.45, blur: 20, bg: 'radial-gradient(circle, rgba(240,150,50,0.5) 0%, rgba(220,100,15,0.3) 35%, transparent 70%)' },
-  // Node 7: Fading amber tip
-  { size: 110, opacity: 0.35, blur: 16, bg: 'radial-gradient(circle, rgba(235,135,40,0.4) 0%, rgba(210,90,10,0.2) 35%, transparent 70%)' },
-  // Node 8: Soft tail end
-  { size: 80, opacity: 0.22, blur: 12, bg: 'radial-gradient(circle, rgba(230,120,30,0.3) 0%, transparent 70%)' },
-]
+export const GLOW_PRESETS = {
+  cyan: {
+    name: 'Electric Cyan & Indigo',
+    sheen: 'rgba(56, 189, 248, 0.08)',
+    headCore: 'radial-gradient(circle, rgba(230, 252, 255, 0.95) 0%, rgba(56, 189, 248, 0.65) 40%, rgba(99, 102, 241, 0.25) 70%, transparent 85%)',
+    headSparkle: 'bg-cyan-100/95',
+    sparkleShadow: '0 0 24px rgba(186, 230, 253, 0.95), 0 0 45px rgba(56, 189, 248, 0.65)',
+    trail: [
+      { size: 480, opacity: 0.9, blur: 55, bg: 'radial-gradient(circle, rgba(224,247,255,0.92) 0%, rgba(56,189,248,0.7) 35%, rgba(59,130,246,0.35) 55%, transparent 75%)' },
+      { size: 400, opacity: 0.85, blur: 48, bg: 'radial-gradient(circle, rgba(186,230,253,0.88) 0%, rgba(14,165,233,0.65) 35%, rgba(79,70,229,0.3) 55%, transparent 75%)' },
+      { size: 340, opacity: 0.8, blur: 42, bg: 'radial-gradient(circle, rgba(125,211,252,0.82) 0%, rgba(2,132,199,0.55) 35%, rgba(99,102,241,0.25) 55%, transparent 75%)' },
+      { size: 290, opacity: 0.72, blur: 36, bg: 'radial-gradient(circle, rgba(96,165,250,0.75) 0%, rgba(59,130,246,0.5) 35%, rgba(139,92,246,0.2) 55%, transparent 75%)' },
+      { size: 240, opacity: 0.65, blur: 30, bg: 'radial-gradient(circle, rgba(129,140,248,0.7) 0%, rgba(99,102,241,0.45) 35%, rgba(168,85,247,0.18) 55%, transparent 75%)' },
+      { size: 190, opacity: 0.55, blur: 24, bg: 'radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(147,51,234,0.35) 35%, rgba(126,34,206,0.12) 55%, transparent 75%)' },
+      { size: 150, opacity: 0.45, blur: 20, bg: 'radial-gradient(circle, rgba(192,132,252,0.5) 0%, rgba(168,85,247,0.3) 35%, transparent 70%)' },
+      { size: 110, opacity: 0.35, blur: 16, bg: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(139,92,246,0.2) 35%, transparent 70%)' },
+      { size: 80, opacity: 0.22, blur: 12, bg: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 70%)' },
+    ],
+  },
+  violet: {
+    name: 'Ultraviolet & Magenta',
+    sheen: 'rgba(168, 85, 247, 0.08)',
+    headCore: 'radial-gradient(circle, rgba(250, 235, 255, 0.95) 0%, rgba(217, 70, 239, 0.65) 40%, rgba(147, 51, 234, 0.25) 70%, transparent 85%)',
+    headSparkle: 'bg-fuchsia-100/95',
+    sparkleShadow: '0 0 24px rgba(245, 208, 254, 0.95), 0 0 45px rgba(217, 70, 239, 0.65)',
+    trail: [
+      { size: 480, opacity: 0.9, blur: 55, bg: 'radial-gradient(circle, rgba(250,232,255,0.92) 0%, rgba(217,70,239,0.7) 35%, rgba(147,51,234,0.35) 55%, transparent 75%)' },
+      { size: 400, opacity: 0.85, blur: 48, bg: 'radial-gradient(circle, rgba(245,208,254,0.88) 0%, rgba(192,38,211,0.65) 35%, rgba(126,34,206,0.3) 55%, transparent 75%)' },
+      { size: 340, opacity: 0.8, blur: 42, bg: 'radial-gradient(circle, rgba(232,121,249,0.82) 0%, rgba(162,28,175,0.55) 35%, rgba(107,33,168,0.25) 55%, transparent 75%)' },
+      { size: 290, opacity: 0.72, blur: 36, bg: 'radial-gradient(circle, rgba(216,180,254,0.75) 0%, rgba(168,85,247,0.5) 35%, rgba(88,28,135,0.2) 55%, transparent 75%)' },
+      { size: 240, opacity: 0.65, blur: 30, bg: 'radial-gradient(circle, rgba(192,132,252,0.7) 0%, rgba(147,51,234,0.45) 35%, rgba(76,29,149,0.18) 55%, transparent 75%)' },
+      { size: 190, opacity: 0.55, blur: 24, bg: 'radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(126,34,206,0.35) 35%, transparent 75%)' },
+      { size: 150, opacity: 0.45, blur: 20, bg: 'radial-gradient(circle, rgba(147,51,234,0.5) 0%, rgba(107,33,168,0.3) 35%, transparent 70%)' },
+      { size: 110, opacity: 0.35, blur: 16, bg: 'radial-gradient(circle, rgba(126,34,206,0.4) 0%, transparent 70%)' },
+      { size: 80, opacity: 0.22, blur: 12, bg: 'radial-gradient(circle, rgba(107,33,168,0.3) 0%, transparent 70%)' },
+    ],
+  },
+  emerald: {
+    name: 'Aurora Emerald & Teal',
+    sheen: 'rgba(20, 184, 166, 0.08)',
+    headCore: 'radial-gradient(circle, rgba(230, 255, 245, 0.95) 0%, rgba(52, 211, 153, 0.65) 40%, rgba(20, 184, 166, 0.25) 70%, transparent 85%)',
+    headSparkle: 'bg-emerald-100/95',
+    sparkleShadow: '0 0 24px rgba(167, 243, 208, 0.95), 0 0 45px rgba(52, 211, 153, 0.65)',
+    trail: [
+      { size: 480, opacity: 0.9, blur: 55, bg: 'radial-gradient(circle, rgba(236,253,245,0.92) 0%, rgba(52,211,153,0.7) 35%, rgba(16,185,129,0.35) 55%, transparent 75%)' },
+      { size: 400, opacity: 0.85, blur: 48, bg: 'radial-gradient(circle, rgba(167,243,208,0.88) 0%, rgba(45,212,191,0.65) 35%, rgba(13,148,136,0.3) 55%, transparent 75%)' },
+      { size: 340, opacity: 0.8, blur: 42, bg: 'radial-gradient(circle, rgba(110,231,183,0.82) 0%, rgba(20,184,166,0.55) 35%, rgba(15,118,110,0.25) 55%, transparent 75%)' },
+      { size: 290, opacity: 0.72, blur: 36, bg: 'radial-gradient(circle, rgba(52,211,153,0.75) 0%, rgba(14,165,233,0.5) 35%, rgba(3,105,161,0.2) 55%, transparent 75%)' },
+      { size: 240, opacity: 0.65, blur: 30, bg: 'radial-gradient(circle, rgba(45,212,191,0.7) 0%, rgba(2,132,199,0.45) 35%, transparent 75%)' },
+      { size: 190, opacity: 0.55, blur: 24, bg: 'radial-gradient(circle, rgba(20,184,166,0.6) 0%, rgba(14,116,144,0.35) 35%, transparent 75%)' },
+      { size: 150, opacity: 0.45, blur: 20, bg: 'radial-gradient(circle, rgba(13,148,136,0.5) 0%, transparent 70%)' },
+      { size: 110, opacity: 0.35, blur: 16, bg: 'radial-gradient(circle, rgba(15,118,110,0.4) 0%, transparent 70%)' },
+      { size: 80, opacity: 0.22, blur: 12, bg: 'radial-gradient(circle, rgba(17,94,89,0.3) 0%, transparent 70%)' },
+    ],
+  },
+  starlight: {
+    name: 'Pure Starlight & Ice Blue',
+    sheen: 'rgba(255, 255, 255, 0.08)',
+    headCore: 'radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.7) 40%, rgba(147, 197, 253, 0.25) 70%, transparent 85%)',
+    headSparkle: 'bg-white',
+    sparkleShadow: '0 0 24px rgba(255, 255, 255, 0.98), 0 0 45px rgba(186, 230, 253, 0.8)',
+    trail: [
+      { size: 480, opacity: 0.9, blur: 55, bg: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(224,242,254,0.7) 35%, rgba(186,230,253,0.35) 55%, transparent 75%)' },
+      { size: 400, opacity: 0.85, blur: 48, bg: 'radial-gradient(circle, rgba(240,249,255,0.9) 0%, rgba(186,230,253,0.65) 35%, rgba(147,197,253,0.3) 55%, transparent 75%)' },
+      { size: 340, opacity: 0.8, blur: 42, bg: 'radial-gradient(circle, rgba(224,242,254,0.85) 0%, rgba(147,197,253,0.55) 35%, rgba(96,165,250,0.25) 55%, transparent 75%)' },
+      { size: 290, opacity: 0.72, blur: 36, bg: 'radial-gradient(circle, rgba(186,230,253,0.75) 0%, rgba(96,165,250,0.5) 35%, transparent 75%)' },
+      { size: 240, opacity: 0.65, blur: 30, bg: 'radial-gradient(circle, rgba(147,197,253,0.7) 0%, rgba(59,130,246,0.45) 35%, transparent 75%)' },
+      { size: 190, opacity: 0.55, blur: 24, bg: 'radial-gradient(circle, rgba(96,165,250,0.6) 0%, transparent 75%)' },
+      { size: 150, opacity: 0.45, blur: 20, bg: 'radial-gradient(circle, rgba(59,130,246,0.5) 0%, transparent 70%)' },
+      { size: 110, opacity: 0.35, blur: 16, bg: 'radial-gradient(circle, rgba(37,99,235,0.4) 0%, transparent 70%)' },
+      { size: 80, opacity: 0.22, blur: 12, bg: 'radial-gradient(circle, rgba(29,78,216,0.3) 0%, transparent 70%)' },
+    ],
+  },
+}
 
-const Glowing_Effect = ({ heroId = 'hero' }) => {
+const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
   const containerRef = useRef(null)
   const nodeRefs = useRef([])
   const headCoreRef = useRef(null)
   const headSparkleRef = useRef(null)
+
+  const activePreset = GLOW_PRESETS[preset] || GLOW_PRESETS.cyan
+  const trailConfig = activePreset.trail
 
   useEffect(() => {
     const isTouchOrReduced = window.matchMedia('(hover: none), (prefers-reduced-motion: reduce)').matches
@@ -120,7 +176,7 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const node = nodeRefs.current[i]
         if (node) {
-          const cfg = TRAIL_CONFIG[i]
+          const cfg = trailConfig[i]
           const halfSize = cfg.size / 2
           node.style.transform = `translate3d(${points[i].x - halfSize}px, ${points[i].y - halfSize}px, 0)`
         }
@@ -173,7 +229,7 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
         cancelAnimationFrame(animationFrame)
       }
     }
-  }, [heroId])
+  }, [heroId, preset, trailConfig])
 
   return (
     <div
@@ -182,9 +238,9 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
       aria-hidden="true"
     >
       {/* Trailing Optical Glow Nodes */}
-      {TRAIL_CONFIG.map((cfg, idx) => (
+      {trailConfig.map((cfg, idx) => (
         <div
-          key={idx}
+          key={`${preset}-${idx}`}
           ref={(el) => (nodeRefs.current[idx] = el)}
           className="pointer-events-none absolute left-0 top-0 rounded-full will-change-transform"
           style={{
@@ -202,7 +258,7 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
         ref={headCoreRef}
         className="pointer-events-none absolute left-0 top-0 h-[200px] w-[200px] rounded-full will-change-transform"
         style={{
-          background: 'radial-gradient(circle, rgba(255,245,180,0.85) 0%, rgba(255,190,60,0.55) 40%, rgba(216,140,30,0.2) 70%, transparent 85%)',
+          background: activePreset.headCore,
           filter: 'blur(18px)',
         }}
       />
@@ -210,9 +266,9 @@ const Glowing_Effect = ({ heroId = 'hero' }) => {
       {/* Head Specular Sparkle */}
       <div
         ref={headSparkleRef}
-        className="pointer-events-none absolute left-0 top-0 h-8 w-8 rounded-full bg-amber-100/95 blur-[4px] will-change-transform"
+        className={`pointer-events-none absolute left-0 top-0 h-8 w-8 rounded-full ${activePreset.headSparkle} blur-[4px] will-change-transform`}
         style={{
-          boxShadow: '0 0 24px rgba(255,220,120,0.85), 0 0 45px rgba(216,140,30,0.55)',
+          boxShadow: activePreset.sparkleShadow,
         }}
       />
     </div>
