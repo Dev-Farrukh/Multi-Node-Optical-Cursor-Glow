@@ -24,7 +24,7 @@ const Effect_Demo = () => {
       <div
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(850px circle at var(--sheen-x, 50%) var(--sheen-y, 50%), ${presetMeta.sheen}, transparent 60%)`,
+          background: `radial-gradient(480px circle at var(--sheen-x, 50%) var(--sheen-y, 50%), ${presetMeta.sheen}, transparent 60%)`,
         }}
       />
 
