@@ -1,9 +1,8 @@
+import Effect_Demo from "./demos/Effect_Demo"
 
 
 const App = () => {
-  return (
-    <div className='text-7xl'>App</div>
-  )
+  return <Effect_Demo />
 }
 
 export default App

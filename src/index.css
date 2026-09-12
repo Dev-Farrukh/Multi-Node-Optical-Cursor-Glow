@@ -1,1 +1,269 @@
-@import "tailwindcss";
+/* -------------------------------------------------------------
+ * Multi-Node Optical Cursor Glow Engine
+ * Pure Vanilla CSS (No Tailwind CSS)
+ * ------------------------------------------------------------- */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #06070a;
+  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================================
+ * Stage & Layout Styles
+ * ============================================================= */
+
+.glow-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #06070a;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Dynamic radial sheen driven by effect CSS custom properties */
+.glow-sheen-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(850px circle at var(--sheen-x, 50%) var(--sheen-y, 50%), rgba(255, 210, 110, 0.06), transparent 60%);
+  transition: opacity 0.3s ease;
+}
+
+/* Subtle background grid pattern */
+.glow-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+}
+
+/* =============================================================
+ * Optical Glow Effect Elements (Pure CSS)
+ * ============================================================= */
+
+.glow-effect-container {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  user-select: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.glow-node {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.glow-core {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.glow-sparkle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 245, 200, 0.95);
+  filter: blur(4px);
+  box-shadow: 0 0 24px rgba(255, 220, 120, 0.85), 0 0 45px rgba(216, 140, 30, 0.55);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* =============================================================
+ * Center Hero Content
+ * ============================================================= */
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 680px;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.badge-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.hero-title {
+  font-size: clamp(32px, 5.5vw, 56px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff 30%, #fde68a 70%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 20px rgba(245, 158, 11, 0.15));
+}
+
+.hero-subtitle {
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 400;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+
+.hint-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.hint-spark {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+/* =============================================================
+ * Minimal Bottom Stage Footer
+ * ============================================================= */
+
+.stage-footer {
+  position: absolute;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  background: rgba(12, 15, 22, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.footer-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.metric-label {
+  font-size: 9px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 700;
+}
+
+.metric-val {
+  font-size: 12px;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+  .stage-footer {
+    gap: 12px;
+    padding: 8px 16px;
+    bottom: 16px;
+  }
+  .footer-metric:nth-child(5) {
+    display: none;
+  }
+  .footer-divider:nth-child(4) {
+    display: none;
+  }
+}
