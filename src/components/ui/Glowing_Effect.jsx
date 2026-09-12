@@ -97,7 +97,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
     let targetX = window.innerWidth / 2
     let targetY = window.innerHeight / 2
 
-    // Chained coordinates array
     const points = Array.from({ length: TRAIL_COUNT }, () => ({
       x: targetX,
       y: targetY,
@@ -122,7 +121,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
       targetX = e.clientX - rect.left
       targetY = e.clientY - rect.top
 
-      // 3D tilt calculations
       const percentX = (targetX / rect.width - 0.5) * 2
       const percentY = (targetY / rect.height - 0.5) * 2
 
@@ -155,24 +153,20 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
         return
       }
 
-      // 1. Head tracks cursor with silky smooth responsiveness
       points[0].x += (targetX - points[0].x) * 0.22
       points[0].y += (targetY - points[0].y) * 0.22
 
-      // 2. Chained trailing physics - each node follows predecessor with natural inertia
       for (let i = 1; i < TRAIL_COUNT; i++) {
         const factor = Math.max(0.12, 0.26 - i * 0.016)
         points[i].x += (points[i - 1].x - points[i].x) * factor
         points[i].y += (points[i - 1].y - points[i].y) * factor
       }
 
-      // Smooth opacity fade
       currentOpacity += (targetOpacity - currentOpacity) * 0.08
       if (container) {
         container.style.opacity = currentOpacity.toFixed(3)
       }
 
-      // Update positions of all trailing glow nodes directly in DOM
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const node = nodeRefs.current[i]
         if (node) {
@@ -182,7 +176,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
         }
       }
 
-      // Update Head Inner Core & Specular Highlight
       if (headCoreRef.current) {
         headCoreRef.current.style.transform = `translate3d(${points[0].x - 55}px, ${points[0].y - 55}px, 0)`
       }
@@ -190,7 +183,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
         headSparkleRef.current.style.transform = `translate3d(${points[0].x - 10}px, ${points[0].y - 10}px, 0)`
       }
 
-      // If faded out and mouse left, stop loop to preserve battery/CPU
       if (!isInside && currentOpacity < 0.01) {
         animationFrame = null
         return
@@ -199,7 +191,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
       animationFrame = requestAnimationFrame(animate)
     }
 
-    // IntersectionObserver to pause loop when Hero is out of view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -237,7 +228,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
       className="pointer-events-none absolute inset-0 z-0 select-none opacity-0 mix-blend-screen transition-opacity duration-300 will-change-transform"
       aria-hidden="true"
     >
-      {/* Trailing Optical Glow Nodes */}
       {trailConfig.map((cfg, idx) => (
         <div
           key={`${preset}-${idx}`}
@@ -253,7 +243,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
         />
       ))}
 
-      {/* Head Inner Radiant Warm Core */}
       <div
         ref={headCoreRef}
         className="pointer-events-none absolute left-0 top-0 h-[110px] w-[110px] rounded-full will-change-transform"
@@ -263,7 +252,6 @@ const Glowing_Effect = ({ heroId = 'hero', preset = 'cyan' }) => {
         }}
       />
 
-      {/* Head Specular Sparkle */}
       <div
         ref={headSparkleRef}
         className={`pointer-events-none absolute left-0 top-0 h-5 w-5 rounded-full ${activePreset.headSparkle} blur-[3px] will-change-transform`}
