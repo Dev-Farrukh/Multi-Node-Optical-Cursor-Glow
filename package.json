@@ -1,7 +1,8 @@
 {
-  "name": "glowing-effect",
+  "name": "multi-node-optical-cursor-glow",
+  "description": "Ultra-smooth physics-driven optical cursor glow and light wake component for React and Tailwind CSS",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
