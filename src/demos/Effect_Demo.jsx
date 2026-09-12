@@ -3,14 +3,6 @@ import Glowing_Effect, { GLOW_PRESETS } from '../components/ui/Glowing_Effect'
 
 const Effect_Demo = () => {
   const [activePreset, setActivePreset] = useState('cyan')
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = (e) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText('npm i multi-node-optical-cursor-glow')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
 
   const presetMeta = GLOW_PRESETS[activePreset] || GLOW_PRESETS.cyan
 
@@ -69,8 +61,6 @@ const Effect_Demo = () => {
         <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-lg mb-8 select-text cursor-text">
           Move your cursor around the screen to experience the real-time optical wake, bloom dispersion, and specular lighting.
         </p>
-
-       
       </div>
     </div>
   )
