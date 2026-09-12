@@ -4,8 +4,6 @@ import Glowing_Effect, { GLOW_PRESETS } from '../components/ui/Glowing_Effect'
 const Effect_Demo = () => {
   const [activePreset, setActivePreset] = useState('cyan')
 
-  const presetMeta = GLOW_PRESETS[activePreset] || GLOW_PRESETS.cyan
-
   return (
     <Glowing_Effect
       preset={activePreset}
@@ -13,13 +11,6 @@ const Effect_Demo = () => {
       intensity={1}
       className="w-screen h-screen flex flex-col items-center justify-center bg-[#05070d] text-slate-100 select-text"
     >
-      <div
-        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(480px circle at var(--sheen-x, 50%) var(--sheen-y, 50%), ${presetMeta.sheen}, transparent 60%)`,
-        }}
-      />
-
       <div
         className="pointer-events-none absolute inset-0 z-0 opacity-20"
         style={{
