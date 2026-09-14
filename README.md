@@ -74,7 +74,7 @@ export default function PricingCard() {
 
 | Preset | Core Glow | Trailing Wake | Accent Highlight |
 | :--- | :--- | :--- | :--- |
-| **`cyan`** | Crisp Starlight Cyan | Sky Blue $\rightarrow$ Deep Azure $\rightarrow$ Indigo | `rgba(56, 189, 248)` |
+| **`cyan`** | Crisp Starlight Cyan | Sky Blue $\rightarrow$ Rose $\rightarrow$ Radiant Crimson Red | `rgba(56, 189, 248)` |
 | **`violet`** | Pure Starlight Lavender | Fuchsia $\rightarrow$ Ultraviolet $\rightarrow$ Deep Violet | `rgba(217, 70, 239)` |
 | **`emerald`** | Mint Aurora | Emerald $\rightarrow$ Teal $\rightarrow$ Deep Cyan | `rgba(52, 211, 153)` |
 | **`starlight`** | Ice White | Ice Blue $\rightarrow$ Soft Cobalt | `rgba(255, 255, 255)` |
